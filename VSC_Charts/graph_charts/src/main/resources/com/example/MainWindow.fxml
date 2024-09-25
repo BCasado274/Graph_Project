@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.geometry.Pos?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.controller.ChartController">
-   
-   <!-- VBox para centrar el botón y la imagen verticalmente en la pantalla -->
+
+   <top>
+      <VBox alignment="CENTER" spacing="10">
+         <HBox alignment="CENTER" spacing="10">
+            <Label text="Tipo de gráfico:"/>
+            <ChoiceBox fx:id="chartTypeChoiceBox" />
+         </HBox>
+         <HBox alignment="CENTER" spacing="10">
+            <Label text="Eje X:"/>
+            <TextField fx:id="xAxisInput" promptText="Valores separados por comas"/>
+         </HBox>
+         <HBox alignment="CENTER" spacing="10">
+            <Label text="Eje Y:"/>
+            <TextField fx:id="yAxisInput" promptText="Valores separados por comas"/>
+         </HBox>
+         <Button text="Generar gráfico" onAction="#handleGenerateChart"/>
+      </VBox>
+   </top>
+
    <center>
       <VBox alignment="CENTER" spacing="20">
-         <Button text="Generar gráfico" onAction="#handleGenerateChart" />
          <ImageView fx:id="chartImageView" fitWidth="600" fitHeight="400" />
       </VBox>
    </center>
-   
+
 </BorderPane>
