@@ -3,15 +3,17 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Pos?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.controller.ChartController">
-   <!-- El botón irá en la parte inferior de la ventana -->
-   <bottom>
-      <Button text="Generar gráfico" onAction="#handleGenerateChart" />
-   </bottom>
-
-   <!-- El ImageView ocupará el centro de la ventana -->
+   
+   <!-- VBox para centrar el botón y la imagen verticalmente en la pantalla -->
    <center>
-      <ImageView fx:id="chartImageView" fitWidth="600" fitHeight="400" />
+      <VBox alignment="CENTER" spacing="20">
+         <Button text="Generar gráfico" onAction="#handleGenerateChart" />
+         <ImageView fx:id="chartImageView" fitWidth="600" fitHeight="400" />
+      </VBox>
    </center>
+   
 </BorderPane>
