@@ -68,6 +68,16 @@
             <artifactId>xchart</artifactId>
             <version>3.8.1</version>
         </dependency>
+
+         <!-- Dependencia para manejar archivos CSV -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.5.2</version>
+        </dependency>
+
+
+
     </dependencies>
 
     <!-- Plugins para Maven -->
