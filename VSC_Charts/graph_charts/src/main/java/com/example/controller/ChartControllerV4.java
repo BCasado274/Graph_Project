@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import com.example.controller.CandlestickPattern;  // Ajusta el paquete según donde esté definida la clase
+
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -265,33 +267,46 @@ public class ChartController {
             return;
         }
     
-        // Obtener el plot del gráfico actual
-        XYPlot plot = currentChart.getXYPlot();
-    
-        // Encontrar la fecha del patrón
-        Date patternDate = pattern.getDate();
-        double xValue = patternDate.getTime(); // Convertir la fecha a milisegundos para el eje X
-    
-        // Crear una anotación en la posición del patrón detectado
-        XYTextAnnotation annotation = new XYTextAnnotation(pattern.getName(), xValue, plot.getRangeAxis().getUpperBound());
-        annotation.setFont(new Font("SansSerif", Font.BOLD, 12));
-        annotation.setPaint(java.awt.Color.RED);
-        annotation.setTextAnchor(TextAnchor.TOP_LEFT); // Utiliza TextAnchor en lugar de RectangleAnchor
-    
-        // Agregar la anotación al gráfico
-        plot.addAnnotation(annotation);
-    
-        // Redibujar el gráfico para incluir la nueva anotación
         try {
+            // Obtener el plot del gráfico actual
+            XYPlot plot = currentChart.getXYPlot();
+        
+            // Encontrar la fecha del patrón
+            Date patternDate = pattern.getDate();
+            double xValue = patternDate.getTime(); // Convertir la fecha a milisegundos para el eje X
+        
+            // Verificar si xValue está dentro de los límites del gráfico
+            if (xValue < plot.getDomainAxis().getLowerBound() || xValue > plot.getDomainAxis().getUpperBound()) {
+                System.out.println("El valor de la fecha está fuera de los límites del gráfico.");
+                return;
+            }
+    
+            // Crear una anotación en la posición del patrón detectado
+            XYTextAnnotation annotation = new XYTextAnnotation(pattern.getName(), xValue, plot.getRangeAxis().getUpperBound() * 0.95);
+            annotation.setFont(new Font("SansSerif", Font.BOLD, 12));
+            annotation.setPaint(java.awt.Color.RED);
+            annotation.setTextAnchor(TextAnchor.TOP_LEFT);
+        
+            // Agregar la anotación al gráfico
+            plot.addAnnotation(annotation);
+        
+            // Redibujar el gráfico para incluir la nueva anotación
             double screenWidth = Screen.getPrimary().getBounds().getWidth();
             double screenHeight = Screen.getPrimary().getBounds().getHeight();
+            
+            // Asegurarse de que la imagen se genera correctamente
             byte[] imageBytes = EncoderUtil.encode(currentChart.createBufferedImage((int) screenWidth, (int) screenHeight), ImageFormat.PNG);
+            
+            // Si la imagen se genera correctamente, se actualiza en el ImageView
             Image chartImage = new Image(new ByteArrayInputStream(imageBytes));
             chartImageView.setImage(chartImage);
+        
         } catch (IOException e) {
             e.printStackTrace();
-            // Opcionalmente, puedes mostrar un mensaje de error al usuario
             JOptionPane.showMessageDialog(null, "Error al generar la imagen del gráfico: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al intentar resaltar el patrón: " + e.getMessage());
         }
     }
 
